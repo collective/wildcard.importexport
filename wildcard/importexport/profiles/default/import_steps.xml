@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="wildcard.importexport.importgroups"
+               version="1"
+               handler="wildcard.importexport.groups.importGroups"
+               title="Groups">
+  </import-step>
+  <import-step id="wildcard.importexport.importusers"
+               version="1"
+               handler="wildcard.importexport.users.importUsers"
+               title="Users">
+  </import-step>
+  <import-step id="wildcard.importexport.importroles"
+               version="1"
+               handler="wildcard.importexport.roles.importRoleAssignments"
+               title="Role Assignments">
+  </import-step>
+</import-steps>

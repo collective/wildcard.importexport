@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<export-steps>
+ <export-step id="wildcard.importexport.exportgroups"
+              handler="wildcard.importexport.groups.exportGroups"
+              title="Groups">
+   Export Groups
+ </export-step>
+ <export-step id="wildcard.importexport.exportusers"
+              handler="wildcard.importexport.users.exportUsers"
+              title="Users">
+   Export Users
+ </export-step>
+ <export-step id="wildcard.importexport.exportroles"
+              handler="wildcard.importexport.roles.exportRoleAssignments"
+              title="Role Assignments">
+   Export Role Assignments
+ </export-step>
+</export-steps>

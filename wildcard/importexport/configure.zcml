@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="wildcard.importexport">
+
+
+  <adapter
+     factory=".users.UsersXMLAdapter"
+     provides="Products.GenericSetup.interfaces.IBody"
+     for="Products.PlonePAS.interfaces.plugins.IUserManagement
+          Products.GenericSetup.interfaces.ISetupEnviron"
+     />
+    <adapter
+     factory=".groups.GroupsXMLAdapter"
+     provides="Products.GenericSetup.interfaces.IBody"
+     for="Products.PlonePAS.interfaces.group.IGroupManagement
+          Products.GenericSetup.interfaces.ISetupEnviron"
+     />
+     <adapter
+     factory=".roles.RolesXMLAdapter"
+     provides="Products.GenericSetup.interfaces.IBody"
+     for="Products.PlonePAS.interfaces.capabilities.IAssignRoleCapability
+          Products.GenericSetup.interfaces.ISetupEnviron"
+     />
+    
+    <genericsetup:registerProfile
+        name="default"
+        title="Extra Import and Export Steps"
+        directory="profiles/default"
+        description='Provides support for exporting/importing users, groups'
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    />
+
+</configure>

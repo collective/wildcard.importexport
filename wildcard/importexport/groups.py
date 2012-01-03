@@ -8,6 +8,12 @@ from Products.GenericSetup.utils import exportObjects
 from Products.GenericSetup.utils import importObjects
 
 
+def _v(v):
+    if _v is None:
+        return ''
+    return v
+
+
 class GroupsXMLAdapter(XMLAdapterBase):
     adapts(IGroupManagement, ISetupEnviron)
 
@@ -29,9 +35,9 @@ class GroupsXMLAdapter(XMLAdapterBase):
 
         for group in self.groups():
             child = self._doc.createElement('group')
-            child.setAttribute('id', group['id'])
-            child.setAttribute('title', group['title'])
-            child.setAttribute('description', group['description'])
+            child.setAttribute('id', _v(group['id']))
+            child.setAttribute('title', _v(group['title']))
+            child.setAttribute('description', _v(group['description']))
             root.appendChild(child)
         return root
 

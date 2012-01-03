@@ -1,11 +1,11 @@
+from Products.GenericSetup.interfaces import IBody
+from zope.interface import implements
 # coding: utf-8
 from Products.CMFPlone.utils import getToolByName
 from Products.GenericSetup.utils import XMLAdapterBase
 from zope.component import adapts
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.PlonePAS.interfaces.plugins import IUserManagement
-from Products.GenericSetup.utils import exportObjects
-from Products.GenericSetup.utils import importObjects
 from DateTime import DateTime
 
 
@@ -18,6 +18,7 @@ def getPropMap(md):
 
 class UsersXMLAdapter(XMLAdapterBase):
     adapts(IUserManagement, ISetupEnviron)
+    implements(IBody)
 
     _LOGGER_ID = 'users'
 
@@ -141,11 +142,14 @@ def importUsers(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     users = acl.source_users
-    importObjects(users, '', context)
+    body = context.readDataFile('users.xml')
+    importer = UsersXMLAdapter(users, context)
+    importer.body = body
 
 
 def exportUsers(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     users = acl.source_users
-    exportObjects(users, '', context)
+    exporter = UsersXMLAdapter(users, context)
+    context.writeDataFile('users.xml', exporter.body, exporter.mime_type)

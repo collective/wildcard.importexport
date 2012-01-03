@@ -7,16 +7,14 @@ from Products.GenericSetup.utils import XMLAdapterBase
 from zope.component import adapts
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.PlonePAS.interfaces.capabilities import IAssignRoleCapability
-from Products.GenericSetup.utils import exportObjects
-from Products.GenericSetup.utils import importObjects
 
 
 class RolesXMLAdapter(XMLAdapterBase):
     adapts(IAssignRoleCapability, ISetupEnviron)
 
-    _LOGGER_ID = 'users'
+    _LOGGER_ID = 'roleassignments.xml'
 
-    name = 'users'
+    name = 'roleassignments.xml'
 
     def roles(self):
         for id in self.context.listRoleIds():
@@ -68,11 +66,15 @@ def importRoleAssignments(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     pr = acl.portal_role_manager
-    return importObjects(pr, '', context)
+    body = context.readDataFile('roleassignments.xml')
+    importer = RolesXMLAdapter(pr, context)
+    importer.body = body
 
 
 def exportRoleAssignments(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     pr = acl.portal_role_manager
-    return exportObjects(pr, '', context)
+    exporter = RolesXMLAdapter(pr, context)
+    context.writeDataFile('roleassignments.xml', exporter.body,
+        exporter.mime_type)

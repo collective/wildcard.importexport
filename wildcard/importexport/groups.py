@@ -1,21 +1,22 @@
+from Products.GenericSetup.interfaces import IBody
+from zope.interface import implements
 # coding: utf-8
 from Products.CMFPlone.utils import getToolByName
 from Products.GenericSetup.utils import XMLAdapterBase
 from zope.component import adapts
 from Products.GenericSetup.interfaces import ISetupEnviron
 from Products.PlonePAS.interfaces.group import IGroupManagement
-from Products.GenericSetup.utils import exportObjects
-from Products.GenericSetup.utils import importObjects
 
 
 def _v(v):
-    if _v is None:
+    if v is None:
         return ''
     return v
 
 
 class GroupsXMLAdapter(XMLAdapterBase):
     adapts(IGroupManagement, ISetupEnviron)
+    implements(IBody)
 
     _LOGGER_ID = 'groups'
 
@@ -63,7 +64,9 @@ def importGroups(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     groups = acl.source_groups
-    importObjects(groups, '', context)
+    body = context.readDataFile('groups.xml')
+    importer = GroupsXMLAdapter(groups, context)
+    importer.body = body
 
 
 def exportGroups(context):
@@ -72,4 +75,5 @@ def exportGroups(context):
     site = context.getSite()
     acl = getToolByName(site, 'acl_users', None)
     groups = acl.source_groups
-    exportObjects(groups, '', context)
+    exporter = GroupsXMLAdapter(groups, context)
+    context.writeDataFile('groups.xml', exporter.body, exporter.mime_type)

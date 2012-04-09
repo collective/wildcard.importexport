@@ -67,8 +67,9 @@ def importRoleAssignments(context):
     acl = getToolByName(site, 'acl_users', None)
     pr = acl.portal_role_manager
     body = context.readDataFile('roleassignments.xml')
-    importer = RolesXMLAdapter(pr, context)
-    importer.body = body
+    if body:
+        importer = RolesXMLAdapter(pr, context)
+        importer.body = body
 
 
 def exportRoleAssignments(context):

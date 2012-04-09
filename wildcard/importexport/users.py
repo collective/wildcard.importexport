@@ -143,8 +143,9 @@ def importUsers(context):
     acl = getToolByName(site, 'acl_users', None)
     users = acl.source_users
     body = context.readDataFile('users.xml')
-    importer = UsersXMLAdapter(users, context)
-    importer.body = body
+    if body:
+        importer = UsersXMLAdapter(users, context)
+        importer.body = body
 
 
 def exportUsers(context):

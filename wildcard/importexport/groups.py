@@ -65,8 +65,9 @@ def importGroups(context):
     acl = getToolByName(site, 'acl_users', None)
     groups = acl.source_groups
     body = context.readDataFile('groups.xml')
-    importer = GroupsXMLAdapter(groups, context)
-    importer.body = body
+    if body:
+        importer = GroupsXMLAdapter(groups, context)
+        importer.body = body
 
 
 def exportGroups(context):
